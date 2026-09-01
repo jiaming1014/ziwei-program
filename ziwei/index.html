@@ -16,11 +16,20 @@
 }
 </script>
 <script>
-// CDN 載入失敗即時提示
+// CDN 載入失敗即時提示（error + import 失敗的 unhandledrejection，覆蓋 importmap 失效）
+function showCdnError(msg){
+  var b=document.getElementById('errorBox');
+  if(b){ b.textContent=msg || '排盤引擎好像連不上線，幫我檢查一下網路後再重新整理看看，已經幫你試過備援線路囉，稍後再試也沒問題。'; b.style.display='block'; }
+}
 window.addEventListener('error', function(e){
-  if(e.filename && (e.filename.includes('esm.sh') || e.filename.includes('esm.run') || e.filename.includes('iztro'))){
-    var b=document.getElementById('errorBox');
-     if(b){ b.textContent='排盤引擎好像連不上線，幫我檢查一下網路後再重新整理看看，已經幫你試過備援線路囉，稍後再試也沒問題。'; b.style.display='block'; }
+  if(e.filename && (e.filename.includes('esm.sh') || e.filename.includes('esm.run') || e.filename.includes('jsdelivr') || e.filename.includes('iztro'))){
+    showCdnError();
+  }
+});
+window.addEventListener('unhandledrejection', function(e){
+  var msg=(e.reason && (e.reason.message||String(e.reason)))||'';
+  if(/iztro|esm\.sh|esm\.run|jsdelivr|import/i.test(msg) || /Failed to (fetch|load).*import/i.test(msg)){
+    showCdnError('排盤引擎好像連不上線（import 載入失敗），幫我檢查一下網路後再重新整理看看，已經幫你試過三條備援線路囉（esm.sh / esm.run / jsDelivr）。');
   }
 });
 </script>
@@ -105,19 +114,23 @@ window.addEventListener('error', function(e){
   .progress i{display:block;height:100%;border-radius:999px}
   @media(max-width:760px){
     .form-body{grid-template-columns:repeat(4, minmax(0,1fr));gap:8px}
-    .board{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,minmax(105px,auto));gap:2px}
-    .palace{min-height:105px;padding:6px 6px 5px}
+    .board{grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,minmax(108px,auto));gap:2px}
+    .palace{min-height:108px;padding:7px 6px 6px}
     .palace .p-name{font-size:11px}
     .palace .p-branch{font-size:9px}
     .p-stemBranch{font-size:10px}
-    .star{font-size:10px;padding:1px 3px}
+    .stars{line-height:1.7}
+    .star{font-size:10.5px;padding:1.5px 4px;line-height:1.7}
+    .p-foot{line-height:1.6;gap:3px}
     .center{grid-column:2 / span 2;grid-row:2 / span 2}
     header h1{letter-spacing:4px;font-size:20px}
   }
   @media(max-width:480px){
     .form-body{grid-template-columns:repeat(2, minmax(0,1fr));gap:8px}
     .board{gap:2px}
-    .palace{min-height:92px}
+    .palace{min-height:96px;padding:6px 5px 5px}
+    .stars{line-height:1.65}
+    .star{font-size:10px;padding:1px 3px;line-height:1.65}
     .center h3{font-size:15px;letter-spacing:4px}
     .center .meta{font-size:11px}
   }
@@ -126,7 +139,12 @@ window.addEventListener('error', function(e){
   .star.has-tip:hover::after,.star.has-tip.show-tip::after{display:block}
   .star.has-tip::before{content:"";position:absolute;left:50%;bottom:100%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#2c1810;display:none}
   .star.has-tip:hover::before,.star.has-tip.show-tip::before{display:block}
-  @media print{header,.card{break-inside:avoid} .btn{display:none}}
+  @media print{
+    header,.card{break-inside:avoid} .btn{display:none}
+    *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+    body{background:#fff}
+    .board,.palace,.center,.detail-card,.fortune-card{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  }
 </style>
 </head>
 <body>
@@ -155,7 +173,7 @@ window.addEventListener('error', function(e){
       <button class="btn btn-ghost" id="btnSample">填入範例</button>
       <button class="btn btn-ghost" id="btnPrint" style="margin-left:auto">列印 / 存 PDF</button>
     </div>
-    <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。</div>
+    <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。<br>※ 節氣與真太陽時：本系統與文墨天機同引擎 <code style="background:#fdf6e3;padding:1px 4px;border-radius:4px">iztro</code>，採「鐘錶時間直排」不另做經度/真太陽時校正；若需依出生地經度微調，請自行以前後 1 小時試排對照即可。</div>
   </div>
 
   <div id="chartWrap" class="chart-wrap">
@@ -195,10 +213,15 @@ try{
     }
   }
 }
-// 2-2 載入完成後啟用排盤按鈕並重算農曆提示
+// 2-2 載入完成後啟用排盤按鈕並重算農曆提示（含小月30日待檢狀態修復）
 try{
   const btnCalcEl=document.getElementById('btnCalc');
-  if(btnCalcEl && astro){ btnCalcEl.disabled=false; btnCalcEl.textContent='開始排盤'; }
+  // 若曾因 astro 未載好而標為 pending，此時一併清除
+  if(btnCalcEl && btnCalcEl.dataset.lunarPending==='1') delete btnCalcEl.dataset.lunarPending;
+  if(btnCalcEl && astro){
+    // 若不是被小月邏輯禁用，才恢復為可點
+    if(btnCalcEl.dataset.lunarDisabled!=='1'){ btnCalcEl.disabled=false; btnCalcEl.textContent='開始排盤'; }
+  }
   if(typeof syncDays==='function') syncDays();
   if(typeof updateLunarHint==='function') updateLunarHint();
 }catch{}
@@ -255,7 +278,8 @@ function updateLunarHint(){
   if(isLunar && d===30){
     // 嘗試以 iztro 試算判斷該農曆月是大月或小月（小月選30會拋 only 29 days）
     let isSmallMonth=false;
-    if(typeof astro!=='undefined' && astro){
+    let astroReady = (typeof astro!=='undefined' && astro);
+    if(astroReady){
       try{
         const y=parseInt($('#year').value,10)||2000;
         const m=parseInt(monthSel.value,10)||1;
@@ -267,13 +291,21 @@ function updateLunarHint(){
       }catch(e){
         if(/only\s*29\s*days/i.test(e.message||String(e))) isSmallMonth=true;
       }
+    } else {
+      // astro 尚未載好：先顯示待檢提示，不誤判為大月，避免 0.5s 空窗
+      restoreBtnIfLunarDisabled();
+      hint.textContent='※ 小提醒：正在載入農曆資料，載好後會自動幫你確認這個月是 29 還是 30 天，再幫你檢查 30 日是否可排，稍候一下下就好。';
+      hint.style.display='block';
+      if(btn){ btn.dataset.lunarPending='1'; }
+      return;
     }
     if(isSmallMonth){
       hint.textContent='※ 溫馨提醒：這個農曆月是小月，只有 29 天，選 30 日會沒辦法排盤，已經先幫你把「開始排盤」暫停囉，改選 29 日再試試看。';
       hint.style.display='block';
-      if(btn && typeof astro!=='undefined' && astro){ btn.disabled=true; btn.dataset.lunarDisabled='1'; }
+      if(btn && astroReady){ btn.disabled=true; btn.dataset.lunarDisabled='1'; if(btn.dataset.lunarPending) delete btn.dataset.lunarPending; }
     }else{
       restoreBtnIfLunarDisabled();
+      if(btn && btn.dataset.lunarPending) delete btn.dataset.lunarPending;
       hint.textContent='※ 小提醒：農曆小月只有 29 天，選到 30 日就會排不出來，改選 29 日就好；大月的話選 30 日就沒問題。';
       hint.style.display='block';
     }
