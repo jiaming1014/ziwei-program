@@ -1,0 +1,361 @@
+﻿{
+    "id":  "28kxS1r7dcsWqs1q",
+    "name":  "基礎_Information_Extractor",
+    "description":  null,
+    "active":  false,
+    "activeVersionId":  null,
+    "createdAt":  "2026-09-08T01:29:50.026Z",
+    "updatedAt":  "2026-09-08T12:40:13.318Z",
+    "isArchived":  false,
+    "versionId":  "86b8f377-ad9e-4a5d-9434-04c96052ce2e",
+    "versionCounter":  5,
+    "sourceWorkflowId":  null,
+    "triggerCount":  0,
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "content":  "## 基礎 2：Information Extractor\n學習如何從非結構化雜亂文字中，精準提取強型別 JSON 欄位（取代傳統複雜 Regex）。\n\n📌 支援模型：NVIDIA NIM / OpenRouter (OpenAI 相容)",
+                                         "width":  340
+                                     },
+                      "type":  "n8n-nodes-base.stickyNote",
+                      "position":  [
+                                       -112,
+                                       -16
+                                   ],
+                      "typeVersion":  1,
+                      "id":  "029e278c-8acf-46bf-a9b6-0d41eed96ec5",
+                      "name":  "Sticky Note"
+                  },
+                  {
+                      "parameters":  {
+
+                                     },
+                      "type":  "n8n-nodes-base.manualTrigger",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -80,
+                                       208
+                                   ],
+                      "id":  "bf4814ba-9327-4ec0-b679-99ff147a0385",
+                      "name":  "執行工作流 (Manual Trigger)"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "field-1",
+                                                                                     "name":  "raw_message",
+                                                                                     "value":  "您好！我是王小明（聯絡電話：0912-345-678），請幫我將商品送到「台北市信義區信義路五段7號8樓」。\n我想訂購：阿里山高山茶 2 盒（單價 600 元），以及日月潭紅茶 1 盒（單價 450 元）。請幫我開立統編 88889999，謝謝！",
+                                                                                     "type":  "string"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       128,
+                                       208
+                                   ],
+                      "id":  "c583393a-1bff-4833-b6c3-42a42295d171",
+                      "name":  "模擬自然語言訂購留言"
+                  },
+                  {
+                      "parameters":  {
+                                         "text":  "={{ $json.raw_message }}",
+                                         "schemaType":  "manual",
+                                         "inputSchema":  "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"customer_name\": { \"type\": \"string\", \"description\": \"顧客姓名\" },\n    \"phone\": { \"type\": \"string\", \"description\": \"聯絡電話\" },\n    \"shipping_address\": { \"type\": \"string\", \"description\": \"收件地址\" },\n    \"tax_id\": { \"type\": \"string\", \"description\": \"統一編號（若無則為空）\" },\n    \"order_items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"item_name\": { \"type\": \"string\", \"description\": \"商品名稱\" },\n          \"quantity\": { \"type\": \"number\", \"description\": \"購買數量\" },\n          \"unit_price\": { \"type\": \"number\", \"description\": \"單價\" }\n        },\n        \"required\": [\"item_name\", \"quantity\"]\n      }\n    },\n    \"total_amount\": { \"type\": \"number\", \"description\": \"訂單預估總金額\" }\n  },\n  \"required\": [\"customer_name\", \"phone\", \"shipping_address\", \"order_items\"]\n}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.informationExtractor",
+                      "typeVersion":  1,
+                      "position":  [
+                                       368,
+                                       208
+                                   ],
+                      "id":  "8fabd820-0748-495a-87a9-ecf3c23c7ee3",
+                      "name":  "Information Extractor"
+                  },
+                  {
+                      "parameters":  {
+                                         "model":  "google/gemini-3.8-flash",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+                      "typeVersion":  1,
+                      "position":  [
+                                       368,
+                                       400
+                                   ],
+                      "id":  "a55c2c25-8e45-473c-8033-e2e2c56395eb",
+                      "name":  "OpenRouter Chat Model",
+                      "credentials":  {
+                                          "openRouterApi":  {
+                                                                "id":  "AtFUnDR2KeeIcIQF",
+                                                                "name":  "OpenRouter account"
+                                                            }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "mode":  "id",
+                                                             "value":  "imLVG5aYTRNh8JRB"
+                                                         },
+                                         "columns":  {
+                                                         "mappingMode":  "defineBelow",
+                                                         "value":  {
+                                                                       "customer_name":  "={{ $(\u0027Information Extractor\u0027).item.json.output.customer_name }}",
+                                                                       "phone":  "={{ $(\u0027Information Extractor\u0027).item.json.output.phone }}",
+                                                                       "item_name":  "={{ $json[\u0027訂購的商品\u0027].item_name }}",
+                                                                       "quantity":  "={{ $json[\u0027訂購的商品\u0027].quantity }}",
+                                                                       "amount":  "={{ $json[\u0027訂購的商品\u0027].quantity * $json[\u0027訂購的商品\u0027].unit_price }}"
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "customer_name",
+                                                                            "displayName":  "customer_name",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "readOnly":  false,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "phone",
+                                                                            "displayName":  "phone",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "readOnly":  false,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "item_name",
+                                                                            "displayName":  "item_name",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "readOnly":  false,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "quantity",
+                                                                            "displayName":  "quantity",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "number",
+                                                                            "readOnly":  false,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "amount",
+                                                                            "displayName":  "amount",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "number",
+                                                                            "readOnly":  false,
+                                                                            "removed":  false
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "5fbb7f3d-7026-44f3-b607-fd09adf01a0c",
+                      "name":  "寫入訂購項目 DataTable",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       1216,
+                                       208
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "5cd45bb6-1a95-4704-84dc-005394b80534",
+                                                                                     "name":  "客戶名稱",
+                                                                                     "value":  "={{ $json.output.customer_name }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "dc654653-51ce-4711-96c2-52eb15ac3e16",
+                                                                                     "name":  "電話",
+                                                                                     "value":  "={{ $json.output.phone }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "d857cbd5-66cb-4336-ab4c-9fbe44fad0d2",
+                                                                                     "name":  "送貨地址",
+                                                                                     "value":  "={{ $json.output.shipping_address }}",
+                                                                                     "type":  "string"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "88e18d0a-e43f-4c4b-885c-8668385ae8c7",
+                                                                                     "name":  "訂購的商品",
+                                                                                     "value":  "={{ $json.output.order_items }}",
+                                                                                     "type":  "array"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.5,
+                      "position":  [
+                                       736,
+                                       208
+                                   ],
+                      "id":  "e61ce247-efa2-4783-a963-b4ad9ccf89e9",
+                      "name":  "收集到使用者的資料"
+                  },
+                  {
+                      "parameters":  {
+                                         "fieldToSplitOut":  "訂購的商品",
+                                         "options":  {
+                                                         "destinationFieldName":  "訂購的商品"
+                                                     }
+                                     },
+                      "id":  "fdbc0f12-57a9-41ba-aae2-861c34db4619",
+                      "name":  "拆解訂購項目",
+                      "type":  "n8n-nodes-base.splitOut",
+                      "typeVersion":  1,
+                      "position":  [
+                                       976,
+                                       208
+                                   ]
+                  }
+              ],
+    "connections":  {
+                        "執行工作流 (Manual Trigger)":  {
+                                                       "main":  [
+                                                                    [
+                                                                        {
+                                                                            "node":  "模擬自然語言訂購留言",
+                                                                            "type":  "main",
+                                                                            "index":  0
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                   },
+                        "模擬自然語言訂購留言":  {
+                                           "main":  [
+                                                        [
+                                                            {
+                                                                "node":  "Information Extractor",
+                                                                "type":  "main",
+                                                                "index":  0
+                                                            }
+                                                        ]
+                                                    ]
+                                       },
+                        "OpenRouter Chat Model":  {
+                                                      "ai_languageModel":  [
+                                                                               [
+                                                                                   {
+                                                                                       "node":  "Information Extractor",
+                                                                                       "type":  "ai_languageModel",
+                                                                                       "index":  0
+                                                                                   }
+                                                                               ]
+                                                                           ]
+                                                  },
+                        "Information Extractor":  {
+                                                      "main":  [
+                                                                   [
+                                                                       {
+                                                                           "node":  "收集到使用者的資料",
+                                                                           "type":  "main",
+                                                                           "index":  0
+                                                                       }
+                                                                   ]
+                                                               ]
+                                                  },
+                        "收集到使用者的資料":  {
+                                          "main":  [
+                                                       [
+                                                           {
+                                                               "node":  "拆解訂購項目",
+                                                               "type":  "main",
+                                                               "index":  0
+                                                           }
+                                                       ]
+                                                   ]
+                                      },
+                        "拆解訂購項目":  {
+                                       "main":  [
+                                                    [
+                                                        {
+                                                            "node":  "寫入訂購項目 DataTable",
+                                                            "type":  "main",
+                                                            "index":  0
+                                                        }
+                                                    ]
+                                                ]
+                                   }
+                    },
+    "nodeGroups":  [
+
+                   ],
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "binaryMode":  "separate",
+                     "availableInMCP":  true
+                 },
+    "staticData":  null,
+    "pinData":  {
+
+                },
+    "meta":  null,
+    "tags":  [
+
+             ],
+    "shared":  [
+                   {
+                       "role":  "workflow:owner",
+                       "workflowId":  "28kxS1r7dcsWqs1q",
+                       "projectId":  "VGPRfTeFORdyXIVA",
+                       "project":  {
+                                       "id":  "VGPRfTeFORdyXIVA",
+                                       "name":  "家銘 江 \u003cjiaming1014@gmail.com\u003e",
+                                       "type":  "personal",
+                                       "icon":  null,
+                                       "description":  null,
+                                       "customTelemetryTags":  [
+
+                                                               ],
+                                       "creatorId":  "fedd01bf-22d7-4765-8f3b-4fe71af99560",
+                                       "createdAt":  "2026-09-01T09:33:51.933Z",
+                                       "updatedAt":  "2026-09-01T09:45:11.547Z"
+                                   },
+                       "createdAt":  "2026-09-08T01:29:50.037Z",
+                       "updatedAt":  "2026-09-08T01:29:50.037Z"
+                   }
+               ],
+    "activeVersion":  null
+}

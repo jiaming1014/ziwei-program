@@ -1,0 +1,267 @@
+﻿{
+    "id":  "Bi1CLavneFGDpYJH",
+    "name":  "0901_01",
+    "description":  null,
+    "active":  false,
+    "activeVersionId":  null,
+    "createdAt":  "2026-09-01T14:26:02.002Z",
+    "updatedAt":  "2026-09-02T04:23:21.676Z",
+    "isArchived":  false,
+    "versionId":  "5d956770-34aa-4230-b5ea-b1ac7e81dfc0",
+    "versionCounter":  58,
+    "sourceWorkflowId":  null,
+    "triggerCount":  0,
+    "nodes":  [
+                  {
+                      "parameters":  {
+
+                                     },
+                      "id":  "b56a1f03-ac1e-4867-89e6-98c0739e976d",
+                      "cid":  "Ikx1Y2FzIFBleXJpbiI",
+                      "name":  "Execute to Start",
+                      "type":  "n8n-nodes-base.manualTrigger",
+                      "creator":  "Lucas Peyrin",
+                      "position":  [
+                                       -1136,
+                                       208
+                                   ],
+                      "typeVersion":  1,
+                      "notes":  "© 2025 Lucas Peyrin"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "e87952cb-878e-4feb-8261-342eaf887838",
+                                                                                     "name":  "欄位1",
+                                                                                     "type":  "string",
+                                                                                     "value":  "欄位1的值"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "b5f030f4-6650-4181-881f-de44790bb24b",
+                                                                                     "name":  "另一個欄位1",
+                                                                                     "type":  "string",
+                                                                                     "value":  "另一個值"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "fa340bc6-551b-449f-b16d-d1f671cb2c57",
+                                                                                     "name":  "另一個欄位2",
+                                                                                     "value":  "另一個值2",
+                                                                                     "type":  "string"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "e01ba8ae-b631-4592-a43d-614f37704429",
+                      "cid":  "Ikx1Y2FzIFBleXJpbiI",
+                      "name":  "Key \u0026 Value",
+                      "type":  "n8n-nodes-base.set",
+                      "creator":  "Lucas Peyrin",
+                      "position":  [
+                                       -960,
+                                       208
+                                   ],
+                      "typeVersion":  3.4,
+                      "notes":  "© 2025 Lucas Peyrin"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "26f69003-0907-481b-93a6-fffe225c5af9",
+                                                                                     "name":  "布林欄位1",
+                                                                                     "value":  false,
+                                                                                     "type":  "boolean"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "9095870c-54bc-4ea9-9737-e81e3148ca66",
+                                                                                     "name":  "布林欄位2",
+                                                                                     "value":  true,
+                                                                                     "type":  "boolean"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.5,
+                      "position":  [
+                                       -192,
+                                       192
+                                   ],
+                      "id":  "fcaf0841-dd05-41a1-b20f-9e0d57e0ddc8",
+                      "name":  "Edit Fields1"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "3ce7886c-0305-4abe-a272-c39509a2e56b",
+                                                                                     "name":  "json_example_整數",
+                                                                                     "value":  10,
+                                                                                     "type":  "number"
+                                                                                 },
+                                                                                 {
+                                                                                     "id":  "dc29a4b8-aaec-4268-8e3f-9fecf09a7046",
+                                                                                     "name":  "json_example_浮點數",
+                                                                                     "value":  12.5,
+                                                                                     "type":  "number"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.5,
+                      "position":  [
+                                       -800,
+                                       208
+                                   ],
+                      "id":  "0795a461-6ffc-4d38-938e-83896c63b15e",
+                      "name":  "整數數值"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "d1cd4513-baae-4f81-91fb-e4fa3a76728b",
+                                                                                     "name":  "加總",
+                                                                                     "value":  "={{ $json[\u0027json_example_整數\u0027] + $json[\u0027json_example_浮點數\u0027]}}",
+                                                                                     "type":  "number"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.5,
+                      "position":  [
+                                       -576,
+                                       128
+                                   ],
+                      "id":  "63887440-d426-43ec-bb91-55c9cefaa29e",
+                      "name":  "運算"
+                  },
+                  {
+                      "parameters":  {
+                                         "assignments":  {
+                                                             "assignments":  [
+                                                                                 {
+                                                                                     "id":  "ccc3207c-f4c2-4363-b264-45b3110de8be",
+                                                                                     "name":  "平均",
+                                                                                     "value":  "={{\n($json[\u0027json_example_整數\u0027] + $json[\u0027json_example_浮點數\u0027]) / 2\n}}",
+                                                                                     "type":  "number"
+                                                                                 }
+                                                                             ]
+                                                         },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.5,
+                      "position":  [
+                                       -576,
+                                       288
+                                   ],
+                      "id":  "66de32b3-1d35-437c-9394-728e0a705cb7",
+                      "name":  "運算1"
+                  }
+              ],
+    "connections":  {
+                        "Execute to Start":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Key \u0026 Value",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "Key \u0026 Value":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "整數數值",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "整數數值":  {
+                                     "main":  [
+                                                  [
+                                                      {
+                                                          "node":  "運算1",
+                                                          "type":  "main",
+                                                          "index":  0
+                                                      },
+                                                      {
+                                                          "node":  "運算",
+                                                          "type":  "main",
+                                                          "index":  0
+                                                      }
+                                                  ]
+                                              ]
+                                 }
+                    },
+    "nodeGroups":  [
+
+                   ],
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "binaryMode":  "separate",
+                     "timeSavedMode":  "fixed",
+                     "callerPolicy":  "workflowsFromSameOwner",
+                     "availableInMCP":  true
+                 },
+    "staticData":  null,
+    "pinData":  {
+
+                },
+    "meta":  {
+                 "templateCredsSetupCompleted":  true
+             },
+    "tags":  [
+
+             ],
+    "shared":  [
+                   {
+                       "role":  "workflow:owner",
+                       "workflowId":  "Bi1CLavneFGDpYJH",
+                       "projectId":  "VGPRfTeFORdyXIVA",
+                       "project":  {
+                                       "id":  "VGPRfTeFORdyXIVA",
+                                       "name":  "家銘 江 \u003cjiaming1014@gmail.com\u003e",
+                                       "type":  "personal",
+                                       "icon":  null,
+                                       "description":  null,
+                                       "customTelemetryTags":  [
+
+                                                               ],
+                                       "creatorId":  "fedd01bf-22d7-4765-8f3b-4fe71af99560",
+                                       "createdAt":  "2026-09-01T09:33:51.933Z",
+                                       "updatedAt":  "2026-09-01T09:45:11.547Z"
+                                   },
+                       "createdAt":  "2026-09-01T14:26:02.006Z",
+                       "updatedAt":  "2026-09-01T14:26:02.006Z"
+                   }
+               ],
+    "activeVersion":  null
+}
