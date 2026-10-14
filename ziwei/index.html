@@ -4,37 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>紫微斗數排盤 - Ziwei Chart</title>
-<!-- es-module-shims: 舊瀏覽器 importmap 相容 -->
-<script async src="https://esm.sh/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
-<!-- 本地自架 iztro 排盤引擎（MIT License, Copyright (c) 2023 All Contributors）；載入失敗時自動回退 CDN -->
+<!-- 本地自架 iztro 排盤引擎（MIT License, Copyright (c) 2023 All Contributors）— 完全離線，不連任何 CDN -->
 <script src="./iztro.min.js"></script>
-<script type="importmap">
-{
-  "imports": {
-    "iztro": "https://esm.sh/iztro@2.5.1",
-    "iztro-fallback": "https://esm.run/iztro@2.5.1",
-    "iztro-fallback2": "https://cdn.jsdelivr.net/npm/iztro@2.5.1/+esm"
-  }
-}
-</script>
-<script>
-// CDN 載入失敗即時提示（error + import 失敗的 unhandledrejection，覆蓋 importmap 失效）
-function showCdnError(msg){
-  var b=document.getElementById('errorBox');
-  if(b){ b.textContent=msg || '排盤引擎好像連不上線，幫我檢查一下網路後再重新整理看看，已經幫你試過備援線路囉，稍後再試也沒問題。'; b.style.display='block'; }
-}
-window.addEventListener('error', function(e){
-  if(e.filename && (e.filename.includes('esm.sh') || e.filename.includes('esm.run') || e.filename.includes('jsdelivr') || e.filename.includes('iztro'))){
-    showCdnError();
-  }
-});
-window.addEventListener('unhandledrejection', function(e){
-  var msg=(e.reason && (e.reason.message||String(e.reason)))||'';
-  if(/iztro|esm\.sh|esm\.run|jsdelivr|import/i.test(msg) || /Failed to (fetch|load).*import/i.test(msg)){
-    showCdnError('排盤引擎好像連不上線（import 載入失敗），幫我檢查一下網路後再重新整理看看，已經幫你試過三條備援線路囉（esm.sh / esm.run / jsDelivr）。');
-  }
-});
-</script>
 <style>
   :root{
     --bg:#f9f5eb;--paper:#fffef7;--border:#d4c5a0;--red:#8b1a1a;--red2:#a52a2a;--gold:#c9a86a;--ink:#2c1810;
@@ -203,28 +174,14 @@ window.addEventListener('unhandledrejection', function(e){
 
 <script type="module">
 let astro;
-// 優先使用本地自架的 iztro（window.iztro.astro），載入失敗才回退 CDN 備援
+// 使用本地自架 iztro（window.iztro.astro）— 完全離線，不連任何 CDN
 if(window.iztro && window.iztro.astro){
   astro = window.iztro.astro;
 }else{
-  console.warn('本地 iztro.min.js 未載入，改用 CDN 備援');
-  try{
-    astro = (await import('iztro')).astro;
-  }catch(e){
-    console.warn('esm.sh 載入失敗，嘗試備援 esm.run', e);
-    try{
-      astro = (await import('iztro-fallback')).astro;
-    }catch(e2){
-      console.warn('esm.run 載入失敗，嘗試備援 jsDelivr', e2);
-      try{
-        astro = (await import('iztro-fallback2')).astro;
-      }catch(e3){
-        const b=document.getElementById('errorBox');
-         if(b){ b.textContent='排盤引擎目前連不上（本地 iztro.min.js 與 esm.sh / esm.run / jsDelivr 都試過囉），先檢查一下網路再重新整理看看。'; b.style.display='block'; const r=document.createElement('button'); r.textContent='重新載入試試'; r.className='btn btn-ghost'; r.style.marginTop='8px'; r.onclick=()=>location.reload(); b.appendChild(document.createElement('br')); b.appendChild(r); const c=document.getElementById('btnCalc'); if(c){ c.textContent='載入失敗，點我重試'; c.disabled=false; c.onclick=()=>location.reload(); } }
-        throw e3;
-      }
-    }
-  }
+  console.error('本地 iztro.min.js 未載入或損毀');
+  const b=document.getElementById('errorBox');
+  if(b){ b.textContent='排盤引擎（iztro.min.js）沒有載入成功，請確認 iztro.min.js 與本頁放在同一個資料夾，再重新整理看看。'; b.style.display='block'; }
+  const c=document.getElementById('btnCalc'); if(c){ c.textContent='引擎未載入，點我重試'; c.disabled=false; c.onclick=()=>location.reload(); }
 }
 // 2-2 載入完成後啟用排盤按鈕並重算農曆提示（含小月30日待檢狀態修復）
 try{

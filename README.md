@@ -28,11 +28,11 @@
 2. 選擇性別、曆法、出生日期與時間 → 點「開始排盤」
 3. 需要時點「列印 / 存 PDF」輸出命盤
 
-> 排盤引擎已改為本地載入，離線也能正常使用。
+> 排盤引擎已自架於本地，**完全離線、不連任何 CDN**，離線也能正常使用。
 
 ## 排盤引擎
 
-排盤核心採用開源專案 [iztro](https://github.com/SylarLong/iztro)（MIT License），已自架於 `ziwei/iztro.min.js`，並保留 CDN 備援。授權詳見 [`THIRD-PARTY-LICENSES.md`](ziwei/THIRD-PARTY-LICENSES.md)。
+排盤核心採用開源專案 [iztro](https://github.com/SylarLong/iztro)（MIT License），已自架於 `ziwei/iztro.min.js`（檔首已內嵌 MIT 授權與著作權聲明），**不使用任何 CDN**。授權詳見 [`THIRD-PARTY-LICENSES.md`](ziwei/THIRD-PARTY-LICENSES.md)。
 
 ## 授權與聲明
 
@@ -42,4 +42,4 @@
 
 ## 隱私
 
-所有計算皆在使用者瀏覽器本機端完成，**出生日期、時辰與性別不會上傳或儲存**。
+所有計算皆在使用者瀏覽器本機端完成，**出生日期、時辰與性別不會上傳或儲存**。本頁不載入任何 CDN 或外部資源，完全離線可運作。
