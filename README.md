@@ -20,6 +20,7 @@
 | [`ziwei/legal.html`](ziwei/legal.html) | 免責聲明與隱私政策 |
 | [`ziwei/THIRD-PARTY-LICENSES.md`](ziwei/THIRD-PARTY-LICENSES.md) | 第三方授權聲明 |
 | [`ziwei/verification.md`](ziwei/verification.md) | 排盤精準度驗證報告 |
+| [`LICENSE`](LICENSE) | 授權條款（專有，保留所有權利） |
 
 ## 使用方式
 
@@ -35,8 +36,8 @@
 
 ## 授權與聲明
 
-- 本專案自製之介面、版面與運勢評分文案，著作權歸作者所有。
-- 內含之第三方元件依其原始授權（iztro 為 MIT）。
+- 本專案（自製之介面、版面與運勢評分文案）為**專有著作，保留所有權利**，詳見 [`LICENSE`](LICENSE)。
+- 內含之第三方元件依其原始授權（iztro 為 MIT），詳見 [`THIRD-PARTY-LICENSES.md`](ziwei/THIRD-PARTY-LICENSES.md)。
 - 使用前請詳閱 [`legal.html`](ziwei/legal.html)：排盤結果**僅供參考**，不構成任何專業建議。
 
 ## 隱私

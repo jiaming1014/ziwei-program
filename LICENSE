@@ -1,0 +1,27 @@
+Copyright (c) 2026 ryan. All rights reserved.
+保留所有權利
+
+本專案（以下稱「本軟體」）之著作權及其他相關權利，均歸著作權人 ryan 所有。
+未經著作權人事先書面同意，任何人不得為下列行為：
+
+  1. 重製、散布、公開傳輸、公開播送、公開展示或出租本軟體之全部或一部；
+  2. 修改、改作、翻譯、編輯，或據以製作衍生著作；
+  3. 販售、轉授權、商業利用，或其他以本軟體換取利益之行為；
+  4. 逆向工程、解編譯、反組譯，或以其他方式試圖還原本軟體之原始碼
+     （法律強制允許者不在此限）。
+
+第三方元件
+----------
+本專案內含之第三方元件（包括但不限於 iztro 排盤引擎）係依其各自之授權
+條款提供，其著作權仍屬各該原作者及貢獻者所有。本聲明不變更、亦不限制
+該等第三方授權所賦予之權利。相關授權內容詳見 THIRD-PARTY-LICENSES.md。
+
+免責聲明
+--------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

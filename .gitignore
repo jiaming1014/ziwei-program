@@ -1,0 +1,33 @@
+# ---- 作業系統 ----
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---- 編輯器 / IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---- 依賴 / 建置產物 / 日誌 ----
+node_modules/
+dist/
+build/
+*.log
+
+# ---- 測試暫存 ----
+.pytest_cache/
+
+# ---- 本機 AI agent / 工具產物 ----
+.omo/
+.playwright-mcp/
+.codegraph/
+
+# ---- 本機實驗 / 未發布資料夾 ----
+dice/
+joining_1.0/
+unlucky-A/
+
+# ---- 本機 agent 指令檔（不隨 repo 發布）----
+AGENTS.md
