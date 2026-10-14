@@ -6,6 +6,8 @@
 <title>紫微斗數排盤 - Ziwei Chart</title>
 <!-- es-module-shims: 舊瀏覽器 importmap 相容 -->
 <script async src="https://esm.sh/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+<!-- 本地自架 iztro 排盤引擎（MIT License, Copyright (c) 2023 All Contributors）；載入失敗時自動回退 CDN -->
+<script src="./iztro.min.js"></script>
 <script type="importmap">
 {
   "imports": {
@@ -173,7 +175,7 @@ window.addEventListener('unhandledrejection', function(e){
       <button class="btn btn-ghost" id="btnSample">填入範例</button>
       <button class="btn btn-ghost" id="btnPrint" style="margin-left:auto">列印 / 存 PDF</button>
     </div>
-    <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。<br>※ 節氣與真太陽時：本系統與文墨天機同引擎 <code style="background:#fdf6e3;padding:1px 4px;border-radius:4px">iztro</code>，採「鐘錶時間直排」不另做經度/真太陽時校正；若需依出生地經度微調，請自行以前後 1 小時試排對照即可。</div>
+    <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。<br>※ 節氣與真太陽時：本系統採用開源引擎 <code style="background:#fdf6e3;padding:1px 4px;border-radius:4px">iztro</code> 依傳統流派規則排列，採「鐘錶時間直排」不另做經度/真太陽時校正；若需依出生地經度微調，請自行以前後 1 小時試排對照即可。</div>
   </div>
 
   <div id="chartWrap" class="chart-wrap">
@@ -194,22 +196,33 @@ window.addEventListener('unhandledrejection', function(e){
   </div>
 </div>
 
+<footer style="max-width:1100px;margin:4px auto 32px;padding:0 16px;text-align:center;font-size:12px;color:#6b7280;line-height:1.9">
+  排盤結果僅供參考，不構成醫療、投資、法律或心理諮商等專業建議。所有計算皆於您的瀏覽器本機完成，出生資料不會上傳或儲存。
+  <br><a href="./legal.html" style="color:#8b1a1a;text-decoration:underline">免責聲明與隱私政策</a>
+</footer>
+
 <script type="module">
 let astro;
-try{
-  astro = (await import('iztro')).astro;
-}catch(e){
-  console.warn('esm.sh 載入失敗，嘗試備援 esm.run', e);
+// 優先使用本地自架的 iztro（window.iztro.astro），載入失敗才回退 CDN 備援
+if(window.iztro && window.iztro.astro){
+  astro = window.iztro.astro;
+}else{
+  console.warn('本地 iztro.min.js 未載入，改用 CDN 備援');
   try{
-    astro = (await import('iztro-fallback')).astro;
-  }catch(e2){
-    console.warn('esm.run 載入失敗，嘗試備援 jsDelivr', e2);
+    astro = (await import('iztro')).astro;
+  }catch(e){
+    console.warn('esm.sh 載入失敗，嘗試備援 esm.run', e);
     try{
-      astro = (await import('iztro-fallback2')).astro;
-    }catch(e3){
-      const b=document.getElementById('errorBox');
-       if(b){ b.textContent='排盤引擎目前連不上（esm.sh / esm.run / jsDelivr 都試過囉），先檢查一下網路再重新整理看看。'; b.style.display='block'; const r=document.createElement('button'); r.textContent='重新載入試試'; r.className='btn btn-ghost'; r.style.marginTop='8px'; r.onclick=()=>location.reload(); b.appendChild(document.createElement('br')); b.appendChild(r); const c=document.getElementById('btnCalc'); if(c){ c.textContent='載入失敗，點我重試'; c.disabled=false; c.onclick=()=>location.reload(); } }
-      throw e3;
+      astro = (await import('iztro-fallback')).astro;
+    }catch(e2){
+      console.warn('esm.run 載入失敗，嘗試備援 jsDelivr', e2);
+      try{
+        astro = (await import('iztro-fallback2')).astro;
+      }catch(e3){
+        const b=document.getElementById('errorBox');
+         if(b){ b.textContent='排盤引擎目前連不上（本地 iztro.min.js 與 esm.sh / esm.run / jsDelivr 都試過囉），先檢查一下網路再重新整理看看。'; b.style.display='block'; const r=document.createElement('button'); r.textContent='重新載入試試'; r.className='btn btn-ghost'; r.style.marginTop='8px'; r.onclick=()=>location.reload(); b.appendChild(document.createElement('br')); b.appendChild(r); const c=document.getElementById('btnCalc'); if(c){ c.textContent='載入失敗，點我重試'; c.disabled=false; c.onclick=()=>location.reload(); } }
+        throw e3;
+      }
     }
   }
 }
