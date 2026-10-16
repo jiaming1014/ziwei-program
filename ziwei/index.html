@@ -72,6 +72,7 @@
   .legend{margin-top:14px;font-size:11px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
   .legend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(0,0,0,.1)}
   .fortune{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .fortune-top{margin-top:0;margin-bottom:14px}
   .fortune-card{background:var(--paper);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(44,24,16,.06)}
   .fortune-head{padding:12px 14px;font-size:13px;font-weight:800;letter-spacing:2px;color:#fff;display:flex;align-items:center;gap:8px}
   .fortune-head.yearly{background:linear-gradient(135deg,#8b1a1a,#c2410c)}
@@ -150,6 +151,8 @@
   </div>
 
   <div id="chartWrap" class="chart-wrap">
+    <div class="fortune fortune-top" id="fortuneMonthly"></div>
+    <div class="fortune" id="fortune" style="margin-top:0;margin-bottom:14px"></div>
     <div class="board" id="board"></div>
     <div class="legend">
       <span><i style="background:#f5f0ff;border-color:#ddd6fe"></i> 十四主星</span>
@@ -162,7 +165,6 @@
       <span><i style="background:#dc2626"></i> 忌</span>
     </div>
     <div class="detail" id="detail"></div>
-    <div class="fortune" id="fortune"></div>
     <div id="flying"></div>
   </div>
 </div>
@@ -856,8 +858,9 @@ function renderFortune(astrolabe){
     return base+' '+advice;
   }
 
-  // 初始每月：用當前月份
+  // 初始每月：用當前月份（每月卡已移到命盤上方獨立容器）
   const curMonth = now.getMonth()+1;
+  const topEl=$('#fortuneMonthly');
   el.innerHTML=`
     <div class="fortune-card">
       <div class="fortune-head yearly">📅 ${y} 年流年運勢 · ${yearlyStem}${yearlyBranch}年 · 流年命宮在${yearlyBranch}（${yearlyPalace?yearlyPalace.name:'-'}）</div>
@@ -923,6 +926,8 @@ function renderFortune(astrolabe){
         </div>
       </div>
     </div>
+  `;
+  topEl.innerHTML=`
     <div class="fortune-card" style="grid-column:1/-1">
       <div class="fortune-head monthly">🗓️ 每月運勢 · <select id="monthPick" style="margin-left:8px;padding:4px 8px;border-radius:6px;border:none;font-size:13px;background:#fff;color:#065f46;font-weight:800"></select><span style="margin-left:8px;font-weight:400;font-size:11px;opacity:.9">切換月份看流月變化</span></div>
       <div class="fortune-body" id="monthlyBody"></div>
