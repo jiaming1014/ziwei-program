@@ -36,6 +36,7 @@
   .btn-ghost{background:#fff;border:1px solid var(--border);color:var(--ink)}
   .btn-ghost:hover{background:#fdf6e3}
   .hint{font-size:12px;color:var(--muted);padding:0 18px 14px}
+  .print-tip{font-size:11px;color:var(--muted);align-self:center;line-height:1.45;max-width:300px}
   .error{margin:0 18px 12px;padding:10px 12px;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:8px;font-size:13px;display:none}
   /* chart */
   .chart-wrap{margin-top:22px;display:none}
@@ -114,10 +115,15 @@
   .star.has-tip::before{content:"";position:absolute;left:50%;bottom:100%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#2c1810;display:none}
   .star.has-tip:hover::before,.star.has-tip.show-tip::before{display:block}
   @media print{
-    header,.card{break-inside:avoid} .btn{display:none}
+    @page{size:A4 portrait;margin:10mm}
+    header,.card{break-inside:avoid;page-break-inside:avoid} .btn,.print-tip{display:none}
     *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
     body{background:#fff}
     .board,.palace,.center,.detail-card,.fortune-card{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+    /* 避免命盤與各卡片在換頁處被從中間切斷 */
+    .board,.fortune-card,.detail-card,.flying-card,.palace{break-inside:avoid;page-break-inside:avoid}
+    /* 表單下拉在紙上不要出現下拉箭頭外觀 */
+    select{-webkit-appearance:none;appearance:none}
   }
 </style>
 </head>
@@ -145,8 +151,9 @@
     <div class="actions">
       <button class="btn btn-primary" id="btnCalc" disabled>載入中…</button>
       <button class="btn btn-ghost" id="btnSample">填入範例</button>
-      <button class="btn btn-ghost" id="btnBack">返回官網</button>
-      <button class="btn btn-ghost" id="btnPrint" style="margin-left:auto">列印 / 存 PDF</button>
+      <button class="btn btn-ghost" id="btnPrint">列印 / 存 PDF</button>
+      <span class="print-tip">藍芽印表機請先在作業系統配對，列印時從清單選擇即可</span>
+      <button class="btn btn-ghost" id="btnBack" style="margin-left:auto">返回官網</button>
     </div>
     <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。<br>※ 節氣與真太陽時：本系統採用開源引擎 <code style="background:#fdf6e3;padding:1px 4px;border-radius:4px">iztro</code> 依傳統流派規則排列，採「鐘錶時間直排」不另做經度/真太陽時校正；若需依出生地經度微調，請自行以前後 1 小時試排對照即可。</div>
   </div>
