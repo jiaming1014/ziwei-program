@@ -145,6 +145,7 @@
     <div class="actions">
       <button class="btn btn-primary" id="btnCalc" disabled>載入中…</button>
       <button class="btn btn-ghost" id="btnSample">填入範例</button>
+      <button class="btn btn-ghost" id="btnBack">返回官網</button>
       <button class="btn btn-ghost" id="btnPrint" style="margin-left:auto">列印 / 存 PDF</button>
     </div>
     <div class="hint">※ 時辰小提醒：00:00-00:59 算早子、01:00-02:59 是丑時、03:00-04:59 是寅時⋯一路到 23:00-23:59 是晚子，選好時間系統就會自動幫你分好囉。分鐘只是做個紀錄，實際以整點區間為準。<br>※ 溫馨提醒：早子和晚子都算當天，八字日柱系統會自動處理好；如果和老師傅算的差一天，試試前後一天的日期，通常就對上囉。<br>※ 節氣與真太陽時：本系統採用開源引擎 <code style="background:#fdf6e3;padding:1px 4px;border-radius:4px">iztro</code> 依傳統流派規則排列，採「鐘錶時間直排」不另做經度/真太陽時校正；若需依出生地經度微調，請自行以前後 1 小時試排對照即可。</div>
@@ -311,6 +312,18 @@ $('#btnSample').addEventListener('click',()=>{
   syncLeap();
 });
 $('#btnPrint').addEventListener('click',()=>window.print());
+// 返回官網：優先用「關閉本頁」回到原本的官網分頁（保留登入狀態），關不掉時退回直接前往官網
+$('#btnBack').addEventListener('click',()=>{
+  const HOME='https://www.joining.win';
+  // 1) 若本頁被嵌在 iframe 內 → 請外層頁面回官網
+  try{
+    if(window.top && window.top!==window.self){ window.top.location.href=HOME; return; }
+  }catch(e){ /* 跨網域 iframe 會被擋，往下走 */ }
+  // 2) 新分頁開啟 → 關閉本頁，回到原官網分頁（登入狀態保留）
+  window.close();
+  // 3) 若關不掉（同分頁點進來、歷史紀錄 >1）→ 退回直接前往官網
+  setTimeout(()=>{ window.location.href=HOME; },250);
+});
 
 function getTimeIndex(hour){
   // 對齊 iztro@2.5.1 官方 CHINESE_TIME 定義（與下方 hint/getBranch 一致）
