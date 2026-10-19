@@ -150,7 +150,6 @@
     <div class="error" id="errorBox"></div>
     <div class="actions">
       <button class="btn btn-primary" id="btnCalc" disabled>載入中…</button>
-      <button class="btn btn-ghost" id="btnSample">填入範例</button>
       <button class="btn btn-ghost" id="btnPrint" style="display:none">列印 / 存 PDF</button>
       <span class="print-tip" style="display:none">藍芽印表機請先在作業系統配對，列印時從清單選擇即可</span>
       <button class="btn btn-ghost" id="btnBack" style="margin-left:auto">返回官網</button>
@@ -312,12 +311,6 @@ $('#calType').addEventListener('change', syncLeap);
 document.getElementById('isLeap').addEventListener('change', updateLunarHint);
 syncLeap();
 
-$('#btnSample').addEventListener('click',()=>{
-  $('#gender').value='男'; $('#calType').value='solar';
-  $('#year').value=2000; monthSel.value=8; syncDays(); daySel.value=16; hourSel.value=14; minuteSel.value=30;
-  $('#isLeap').checked=false;
-  syncLeap();
-});
 $('#btnPrint').addEventListener('click',()=>window.print());
 // 返回官網：優先用「關閉本頁」回到原本的官網分頁（保留登入狀態），關不掉時退回直接前往官網
 $('#btnBack').addEventListener('click',()=>{
